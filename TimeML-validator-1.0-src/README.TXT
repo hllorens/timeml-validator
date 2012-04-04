@@ -27,7 +27,7 @@ USAGE
 
 java -jar [path-to-the-jar/TimeML-validator.jar] file/s or folder/s
 
-EXAMPLE (if TimeML-validator is included in the CLASSPATH
+EXAMPLE (if TimeML-validator is included in the CLASSPATH)
 
 java -jar TimeML-validator myfile.tml
 
