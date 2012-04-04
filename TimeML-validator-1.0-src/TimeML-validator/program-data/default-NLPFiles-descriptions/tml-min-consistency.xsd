@@ -478,6 +478,15 @@
 			</xs:simpleType>
 		</xs:attribute>
 
+		<xs:attribute name="changed" use="optional">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="TRUE" />
+					<xs:enumeration value="FALSE" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+
 		<xs:attribute name="magnitude" type="TimeID" />
 
 	</xs:complexType>
