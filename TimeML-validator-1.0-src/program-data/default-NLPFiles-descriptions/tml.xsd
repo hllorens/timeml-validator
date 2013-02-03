@@ -5,7 +5,7 @@
 	Variation of the original to suport both original TimeML and TimeML(TEXT) formats.
 	Note: with <TLINKs> outside <TEXT>; and without <s> tags.
 
-	Moreover, the leid attribute for LINKs is adet to prevent the declaration of superfluos MAKEINSTANCES
+	Moreover, the leid attribute for LINKs is added to prevent the declaration of superfluos MAKEINSTANCES
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xml:lang="en" version="1.2">
 
