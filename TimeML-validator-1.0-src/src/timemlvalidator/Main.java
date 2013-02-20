@@ -20,6 +20,11 @@ import java.io.*;
 import utils_bk.FileUtils;
 import nlp_files.XMLFile;
 import org.apache.commons.cli.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import javax.xml.parsers.*;
+
 
 /**
  *
@@ -81,7 +86,7 @@ public class Main {
                         XMLFile xmlfile = new XMLFile();
                         xmlfile.loadFile(f);
                         xmlfile.overrideExtension(type);
-                        if (!xmlfile.isWellFormed()) {
+                        if (!xmlfile.isWellFormed() || !validateTEXTDCT(f)) {
                             if (System.getProperty("DEBUG") != null && System.getProperty("DEBUG").equalsIgnoreCase("true")) {
                                 throw new Exception("File: " + xmlfile.getFile().getCanonicalPath() + " is not a valid TimeML XML file.");
                             } else {
@@ -97,7 +102,7 @@ public class Main {
                             XMLFile xmlfile = new XMLFile();
                             xmlfile.loadFile(files[fn]);
                             xmlfile.overrideExtension(type);
-                            if (!xmlfile.isWellFormed()) {
+                            if (!xmlfile.isWellFormed()  || !validateTEXTDCT(f)) {
                                 if (System.getProperty("DEBUG") != null && System.getProperty("DEBUG").equalsIgnoreCase("true")) {
                                     throw new Exception("File: " + xmlfile.getFile().getCanonicalPath() + " is not a valid TimeML XML file.");
                                 } else {
@@ -122,4 +127,32 @@ public class Main {
         }
 
     }
+
+    public static boolean validateTEXTDCT(File f){
+        try{
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(f);
+            doc.getDocumentElement().normalize();
+            Element dct = ((Element) ((NodeList) ((Element) doc.getElementsByTagName("DCT").item(0)).getElementsByTagName("TIMEX3")).item(0));
+            if (dct == null) {
+                throw new Exception("ERROR: No DCT TIMEX found.");
+            }
+
+            NodeList text = doc.getElementsByTagName("TEXT");
+            if (text.getLength() != 1) {
+                throw new Exception("ERROR: None or more than one TEXT tag found.");
+            }
+            return true;
+        }catch(Exception e){
+            System.err.println("Errors found (TimeML_Normalizer):\n\t" + e.toString() + "\n");
+            if (System.getProperty("DEBUG") != null && System.getProperty("DEBUG").equalsIgnoreCase("true")) {
+                e.printStackTrace(System.err);
+                System.exit(1);
+            }
+            return false;
+        }
+    }
+
 }
+
