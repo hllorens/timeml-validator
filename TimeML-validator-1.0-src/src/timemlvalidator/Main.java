@@ -14,6 +14,7 @@
    limitations under the License.
  */
 
+
 package timemlvalidator;
 
 import java.io.*;
@@ -39,6 +40,7 @@ public class Main {
     public static void main(String[] args) {
         String type = "tml"; // normal
         String input_files[];
+	int incorrect_files=0;
 
         try {
 
@@ -91,6 +93,7 @@ public class Main {
                                 throw new Exception("File: " + xmlfile.getFile().getCanonicalPath() + " is not a valid TimeML XML file.");
                             } else {
                                 System.out.println("File: " + xmlfile.getFile().getCanonicalPath() + " is not a valid TimeML XML file.");
+                                incorrect_files++;
                             }
                         }
                     } else {
@@ -102,11 +105,12 @@ public class Main {
                             XMLFile xmlfile = new XMLFile();
                             xmlfile.loadFile(files[fn]);
                             xmlfile.overrideExtension(type);
-                            if (!xmlfile.isWellFormed()  || !validateTEXTDCT(f)) {
+                            if (!xmlfile.isWellFormed()  || !validateTEXTDCT(xmlfile.getFile())) {
                                 if (System.getProperty("DEBUG") != null && System.getProperty("DEBUG").equalsIgnoreCase("true")) {
                                     throw new Exception("File: " + xmlfile.getFile().getCanonicalPath() + " is not a valid TimeML XML file.");
                                 } else {
                                     System.out.println("File: " + xmlfile.getFile().getCanonicalPath() + " is not a valid TimeML XML file.");
+                                    incorrect_files++;
                                 }
                             }
                         }
@@ -117,7 +121,11 @@ public class Main {
 
 
             }
-            System.out.println("All the files are valid!");
+	    if(incorrect_files==0)
+            	System.out.println("\n\tAll the files are valid!\n\n");
+            else
+            	System.out.println("\n\tERROR:"+incorrect_files+" files are INCORRECT.\n\n");
+            	
         } catch (Exception e) {
             System.err.println("Errors found:\n\t" + e.getMessage() + "\n");
             if (System.getProperty("DEBUG") != null && System.getProperty("DEBUG").equalsIgnoreCase("true")) {
@@ -136,16 +144,18 @@ public class Main {
             doc.getDocumentElement().normalize();
             Element dct = ((Element) ((NodeList) ((Element) doc.getElementsByTagName("DCT").item(0)).getElementsByTagName("TIMEX3")).item(0));
             if (dct == null) {
-                throw new Exception("ERROR: No DCT TIMEX found.");
+                throw new Exception("ERROR: <DCT> TIMEX not found. Expected: <DCT><TIMEX3 tid=\"t0\" type=... value=... temporalFunction=\"false\" functionInDocument=\"CREATION_TIME\">...some timex...</TIMEX3></DCT>");
             }
-
             NodeList text = doc.getElementsByTagName("TEXT");
-            if (text.getLength() != 1) {
-                throw new Exception("ERROR: None or more than one TEXT tag found.");
+            if (text.getLength() == 0) {
+                throw new Exception("ERROR: <TEXT> tag not found.");
+            }
+            if (text.getLength() > 1) {
+                throw new Exception("ERROR: More than one <TEXT> tag found.");
             }
             return true;
         }catch(Exception e){
-            System.err.println("Errors found (TimeML_Normalizer):\n\t" + e.toString() + "\n");
+            System.err.println("Errors found:\n\t" + e.toString() + "\n");
             if (System.getProperty("DEBUG") != null && System.getProperty("DEBUG").equalsIgnoreCase("true")) {
                 e.printStackTrace(System.err);
                 System.exit(1);
