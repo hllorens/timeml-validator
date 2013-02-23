@@ -142,9 +142,15 @@ public class Main {
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(f);
             doc.getDocumentElement().normalize();
-            Element dct = ((Element) ((NodeList) ((Element) doc.getElementsByTagName("DCT").item(0)).getElementsByTagName("TIMEX3")).item(0));
-            if (dct == null) {
-                throw new Exception("ERROR: <DCT> TIMEX not found. Expected: <DCT><TIMEX3 tid=\"t0\" type=... value=... temporalFunction=\"false\" functionInDocument=\"CREATION_TIME\">...some timex...</TIMEX3></DCT>");
+            NodeList dctnodes = doc.getElementsByTagName("DCT");
+            if (dctnodes.getLength() == 0) {
+                throw new Exception("ERROR: <DCT> tag not found.");
+            }
+            if (dctnodes.getLength() > 1) {
+                throw new Exception("ERROR: More than one <DCT> tag found.");
+            }
+            if(((Element) dctnodes.item(0)).getElementsByTagName("TIMEX3").getLength()!=1){
+                throw new Exception("ERROR: <DCT> must contain one and only one <TIMEX3> tag. Expected: <DCT><TIMEX3 tid=\"t0\" type=... value=... temporalFunction=\"false\" functionInDocument=\"CREATION_TIME\">...some timex...</TIMEX3></DCT>");            	
             }
             NodeList text = doc.getElementsByTagName("TEXT");
             if (text.getLength() == 0) {
