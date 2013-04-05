@@ -143,8 +143,8 @@
 <xs:simpleType name="Duration">
 	<xs:restriction base="xs:string">
 		<!--original <xs:pattern value="P((((\p{Nd}+|X{1,2})Y)?((\p{Nd}+|X{1,2})M)?((\p{Nd}+|X{1,2})D)?(T((\p{Nd}+|X{1,2})H)?((\p{Nd}+|X{1,2})M)?((\p{Nd}+|X{1,2})S)?)?)|((\p{Nd}+|X{1,2}))(W|L|E|C|Q))"/> -->
-		<!-- Hector Llorens: includes float numbers, includes M for millennia, C for centuries, and T for quatrimesters, XX for indefinite -->
-		<xs:pattern value="P((((\p{Nd}+(\.\p{Nd}+)?|X{1,2})M)?((\p{Nd}+(\.\p{Nd}+)?|X{1,2})C)?((\p{Nd}+(\.\p{Nd}+)?|X{1,2})Y)?((\p{Nd}+(\.\p{Nd}+)?|X{1,2})T)?((\p{Nd}+(\.\p{Nd}+)?|X{1,2})Q)?((\p{Nd}+(\.\p{Nd}+)?|X{1,2})M)?((\p{Nd}+(\.\p{Nd}+)?|X{1,2})D)?(T((\p{Nd}+(\.\p{Nd}+)?|X{1,2})H)?((\p{Nd}+(\.\p{Nd}+)?|X{1,2})M)?((\p{Nd}+(\.\p{Nd}+)?|X{1,2})S)?(NI)?)?)|((\p{Nd}+(\.\p{Nd}+)?|X{1,2}))(W|L|E|C|Q)|XX)"/> <!-- added last XX --> 
+		<!-- Hector Llorens: includes float numbers, includes M[L] for millennia, C[E] for centuries, DE for decades, and T for quatrimesters, XX for indefinite -->
+		<xs:pattern value="P((((\p{Nd}+(\.\p{Nd}+)?|X{1,2})(M|ML))?((\p{Nd}+(\.\p{Nd}+)?|X{1,2})(C|CE))?((\p{Nd}+(\.\p{Nd}+)?|X{1,2})(DE))?((\p{Nd}+(\.\p{Nd}+)?|X{1,2})Y)?((\p{Nd}+(\.\p{Nd}+)?|X{1,2})T)?((\p{Nd}+(\.\p{Nd}+)?|X{1,2})Q)?((\p{Nd}+(\.\p{Nd}+)?|X{1,2})M)?((\p{Nd}+(\.\p{Nd}+)?|X{1,2})D)?(T((\p{Nd}+(\.\p{Nd}+)?|X{1,2})H)?((\p{Nd}+(\.\p{Nd}+)?|X{1,2})M)?((\p{Nd}+(\.\p{Nd}+)?|X{1,2})S)?(NI)?)?)|((\p{Nd}+(\.\p{Nd}+)?|X{1,2}))(W|L|E|C|Q)|XX)"/> <!-- added last XX --> 
 		<xs:minLength value="3"/>
 	</xs:restriction>
 </xs:simpleType>

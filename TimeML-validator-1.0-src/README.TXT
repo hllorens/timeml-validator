@@ -21,9 +21,9 @@ LICENSE
    
 COMPILATION AND JARING
 
-javac -cp lib/commons-cli-1.2.jar:lib/NLP_BasicKit.jar:lib/Utils_BasicKit.jar  -d build/classes src/timemlvalidator/Main.java
+mkdir -p build/classes; javac -cp lib/commons-cli-1.2.jar:lib/NLP_BasicKit.jar:lib/Utils_BasicKit.jar  -d build/classes src/timemlvalidator/Main.java
 
-jar cfm dist/TimeML-validator.jar manifest.mf -C build/classes/  .
+mkdir dist; jar cfm dist/TimeML-validator.jar manifest.mf -C build/classes/  .
 
 INSTALLATION
 
