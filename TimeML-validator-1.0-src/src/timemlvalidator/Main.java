@@ -64,15 +64,19 @@ public class Main {
 
                 if (cl_options.hasOption('t')) {
                     type = cl_options.getOptionValue("t");
-                    if (!type.equalsIgnoreCase("normal") && !type.equalsIgnoreCase("minimum")) {
-                        throw new Exception("Type (-t) must be either 'normal' or 'minimum'.");
+                    if (!type.equalsIgnoreCase("normal") && !type.equalsIgnoreCase("minimum") && !type.equalsIgnoreCase("just-ids")) {
+                        throw new Exception("Type (-t) must be either 'normal' or 'minimum' or 'just-ids'.");
                     }
                 }
 
                 if(type.equalsIgnoreCase("minimum")){
                     type="tml-min-consistency";
                 }else{
-                    type="tml";
+		        if(type.equalsIgnoreCase("just-ids")){
+		            type="tml-just-ids";
+		        }else{                	 
+	                    type="tml";
+	                }
                 }
 
                 input_files = cl_options.getArgs();
