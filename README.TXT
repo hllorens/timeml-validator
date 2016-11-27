@@ -21,7 +21,9 @@ LICENSE
    
 COMPILATION AND JARING
 
+
 mkdir -p build/classes; javac -cp lib/commons-cli-1.2.jar:lib/NLP_BasicKit.jar:lib/Utils_BasicKit.jar  -d build/classes src/timemlvalidator/Main.java
+    NOTE: in windows use -cp "lib/*" (Java > 1.6) or separate libs by ; not :
 mkdir dist; jar cfm dist/TimeML-validator.jar manifest.mf -C build/classes/  .
 cp -R lib/ dist/;cp -R program-data/ dist/;
 
